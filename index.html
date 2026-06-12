@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeSpace - Confession Café</title>
+    <link rel="manifest" href="./manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         * {
@@ -479,6 +480,15 @@
     <div class="footer-panel">- The cafe is always here for you -</div>
 
     <script>
+        // Register Service Worker for PWA installation
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered successfully!', reg))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+
         function createParticleBurst() {
             const streakScreen = document.getElementById('screen-streak');
             const particleCount = 20;
@@ -570,72 +580,36 @@
             document.getElementById('confession').value = '';
             showScreen('screen-confession');
         }
+        
         function sendToVoid() {
-            const confession = document.getElementById('confession').value.trim();
-            if (!confession) {
-        alert('Please share something before sending!');
-        return;
-         }
-
-    const userName = localStorage.getItem('savedName');
-    const userClass = localStorage.getItem('savedClass');
-
-    // Replace the URL below with your NEW Web App URL from Step 2
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwgPyyShXuNggfEjOLduRsSumB5IRbnxQcZ2manDjA9LNzk7_pwGEikHioG8_AFO8afYA/exec';
-
-    fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors', // This helps prevent browser blocks
-        body: JSON.stringify({
-            name: userName,
-            class: userClass,
-            confession: confession
-        })
-    })
-    .then(() => {
-        showScreen('screen-success');
-    })
-    .catch(error => {
-        console.error('Error!', error.message);
-        // Still show success screen so the user experience isn't broken
-        showScreen('screen-success');
-    });
-}
-        /*function sendToVoid() {
             const confession = document.getElementById('confession').value.trim();
             if (!confession) {
                 alert('Please share something before sending!');
                 return;
             }
 
-            // Submit to Google Sheets
             const userName = localStorage.getItem('savedName');
             const userClass = localStorage.getItem('savedClass');
-            const timestamp = new Date().toISOString();
 
-            fetch('https://script.google.com/macros/s/AKfycbxade9ZLMuKjmHT5qi1DdLP37BUimTjmXf5JpLo0H15/dev', {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwgPyyShXuNggfEjOLduRsSumB5IRbnxQcZ2manDjA9LNzk7_pwGEikHioG8_AFO8afYA/exec';
+
+            fetch(scriptURL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                mode: 'no-cors',
                 body: JSON.stringify({
                     name: userName,
                     class: userClass,
-                    confession: confession,
-                    timestamp: timestamp
+                    confession: confession
                 })
             })
-            .then(response => {
-                if (!response.ok) {
-                    console.warn('Failed to submit to Google Sheets, but continuing...');
-                }
+            .then(() => {
+                showScreen('screen-success');
             })
             .catch(error => {
-                console.warn('Error submitting to Google Sheets:', error);
+                console.error('Error!', error.message);
+                showScreen('screen-success');
             });
-
-            showScreen('screen-success');
-        }*/
+        }
 
         window.onload = () => {
             const savedName = localStorage.getItem('savedName');
