@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.rzikryrazif_collab.twa",
+        "sha256_cert_fingerprints": ["76:C7:8A:00:BD:19:65:DC:2E:B5:5E:D4:A8:B5:41:34:9E:DB:60:DB:55:66:C5:F3:F7:C8:91:7D:BC:DB:2A:3F"]
+      }
+    }]
