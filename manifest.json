@@ -1,7 +1,7 @@
 {
   "name": "SafeSpace Mobile App",
   "short_name": "SafeSpace",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#6F4E37",
   "theme_color": "#6F4E37",
